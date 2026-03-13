@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Jogo da Memória</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/game.css" rel="stylesheet">
+    <script>
+        (function () {
+            console.log("asddd")
+            document.documentElement.setAttribute('data-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body data-theme="light">
+    <header>
+        <span class="cinza negrito espacamento">Tentativas: 0</span>
+        <button id="btnReiniciar">Reiniciar</button>
+        <button onclick="alterarTema()">Alterar Tema</button>
+    </header>
+    <main class="board">
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+        <button class="card">?</button>
+    </main>
+
+    <script src="js/index.js" defer>
+    </script>
+</body>
+
+</html>
