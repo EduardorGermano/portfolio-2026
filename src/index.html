@@ -1,36 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Portfólio profissional de Eduardo - Desenvolvedor Web">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eduardo DEV | Portfolio</title>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+
     <header class="header">
-        <ul>
-            <li><a href="#sobre"><i class="fas fa-user"></i>Sobre</a></li>
-            <li><a href="#projetos"><i class="fas fa-project-diagram"></i> Projetos</a></li>
-            <li><a href="game.html"><i class="fas fa-gamepad"></i> Jogo da Memoria</a></li>
-        </ul>
+        <nav>
+            <ul>
+                <li>
+                    <a href="#sobre">
+                        <i class="fas fa-user"></i> Sobre
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#projetos">
+                        <i class="fas fa-project-diagram"></i> Projetos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="game.html">
+                        <i class="fas fa-gamepad"></i> Jogo da Memória
+                    </a>
+                </li>
+
+                <li>
+                    <button id="btnTema" class="btn-theme" type="button">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </header>
-    <main class="main">
-        <div class="text">
-            <p>Olá! Meu nome é Eduardo e sou um desenvolvedor web. Com formação em Análise e Desenvolvimento de Sistemas, venho atuando no mercado
-            há 3 anos, ajudando empresas e empreendedores a alcançarem seus objetivos através de
-            soluções tecnológicas.</p>
-            <p>Meu foco é desenvolver aplicações web performáticas, acessíveis e responsivas, sempre
-            buscando as melhores práticas e tecnologias modernas.</p>
-        </div>
+
+    <main>
+
+        <section id="sobre" class="main">
+            <div class="profile-container">
+
+                <div class="profile-image">
+                    <img src="./assets/img/FotoPerfil.png" alt="Foto de perfil">
+                </div>
+
+                <div class="text">
+                    <h1>Sobre mim</h1>
+
+                    <p>Olá! Meu nome é Eduardo e sou um desenvolvedor web.</p>
+
+                    <p>Com formação em Análise e Desenvolvimento de Sistemas, venho atuando no mercado
+                        há 3 anos, ajudando empresas e empreendedores a alcançarem seus objetivos através de
+                        soluções tecnológicas.</p>
+
+                    <p>Meu foco é desenvolver aplicações web performáticas, acessíveis e responsivas,
+                        sempre buscando as melhores práticas e tecnologias modernas.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="projetos" class="projects">
+            <h1>Meus Projetos</h1>
+
+            <div class="project-list">
+
+                <div class="project-card">
+                    <h3>Portfólio</h3>
+                    <p>Site pessoal desenvolvido com HTML, CSS e JavaScript.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Jogo da Memória</h3>
+                    <p>Projeto interativo feito com JavaScript.</p>
+                </div>
+
+            </div>
+        </section>
+
     </main>
+
     <footer class="footer">
         <ul>
-            <li><a href="#topo"><i class="fas fa-arrow-up"></i>Voltar para o inicio</a></li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-arrow-up"></i> Voltar ao topo
+                </a>
+            </li>
         </ul>
-        <p>Desenvolvendo qualquer coisa para passar de ano.</p>
+
+        <p>Desenvolvendo qualquer coisa para passar de ano</p>
     </footer>
+
+    <script type="module" src="js/index.js"></script>
+
 </body>
 
 </html>

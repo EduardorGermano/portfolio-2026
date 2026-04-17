@@ -1,114 +1,110 @@
-let palavras = ["DIV", "META", "HEADER", "JS", "FOOTER", "BODY"];
+import { iniciarTema, alterarTema } from "./modules/theme.js";
+import { buscarPalavras, buscarRanking, salvarPartida } from "./modules/api.js";
+import { criarJogo } from "./modules/game.js";
 
-const btnReiniciar = document.getElementById("btnReiniciar");
-const cards = document.querySelectorAll(".card");
-const url = "https://darkblue-frog-779608.hostingersite.com";
+document.addEventListener("DOMContentLoaded", () => {
+    iniciarTema();
 
-let primeira = null;
-let segunda = null;
-let tentativas = 0;
-let bloqueado = false;
+    const btnTema = document.getElementById("btnTema");
+    const btnReiniciar = document.getElementById("btnReiniciar");
+    const btnSalvar = document.getElementById("btnSalvar");
+    const cards = document.querySelectorAll(".card");
+    const tentativasElemento = document.getElementById("tentativas");
+    const rankingLista = document.getElementById("rankingLista");
 
-buscarPalavras();
-salvarPartida();
+    btnTema?.addEventListener("click", () => {
+        alterarTema();
+    });
 
-function iniciarTema() {
-    document.body.dataset.theme = localStorage.getItem("tema") || 'light';
-}
-
-function alterarTema() {
-    let tema = (localStorage.getItem("tema") || 'light') == 'light' ? 'dark' : 'light';
-    document.body.dataset.theme = tema;
-    localStorage.setItem("tema", tema);
-}
-
-async function buscarPalavras() {
-    try {
-        const response = await fetch(`${url}/api/palavras.php?quantidade=6`);
-        //o único status aceitável é 200. 200==ok
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}`);
-        }
-        palavras = await response.json();
-        console.log(palavras);
-        iniciar();
-    } catch (error) {
-        console.log(error);
+    if (cards.length > 0) {
+        iniciarJogo(cards, tentativasElemento, btnReiniciar, btnSalvar, rankingLista);
     }
-}
+});
 
-async function salvarPartida() {
-    try {
-        const response = await fetch(`${url}/api/salvar.php`, {
-            method: 'POST',
-            header: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nome: "Antonio", tempo: 20, tentativas: 100 })
-        });
+async function iniciarJogo(cards, tentativasElemento, btnReiniciar, btnSalvar, rankingLista) {
+    const jogo = criarJogo(cards, tentativasElemento);
 
-        if (!response.ok) {
-            const errorBody = await response.json();
-            throw new Error(`ERRO ${response.status}:${errorBody.erro}`);
+    await carregarTabuleiro(jogo);
+    await carregarRankingNaTela(rankingLista);
+
+    btnReiniciar?.addEventListener("click", async () => {
+        await carregarTabuleiro(jogo);
+    });
+
+    btnSalvar?.addEventListener("click", async () => {
+        const nome = prompt("Digite seu nome para salvar no ranking:");
+
+        if (!nome || !nome.trim()) {
+            return;
         }
 
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.log(error);
-    }
-}
+        const payload = {
+            nome: nome.trim(),
+            tempo: 0,
+            tentativas: jogo.getTentativas()
+        };
 
-function iniciar() {
-    let embaralhadas = embaralhar([...palavras, ...palavras]);
-    cards.forEach((card, x) => {
-        card.textContent = "?";
-        card.dataset.palavra = embaralhadas[x];
-        card.onclick = () => virar(card);
+        const resultado = await salvarPartida(payload);
+
+        if (resultado) {
+            await carregarRankingNaTela(rankingLista);
+            alert("Partida salva com sucesso!");
+        } else {
+            alert("Não foi possível salvar a partida.");
+        }
     });
 }
 
-function virar(card) {
-    if (bloqueado) return;
-    card.textContent = card.dataset.palavra;
-    card.classList.add("selecionado");
-    if (!primeira) {
-        primeira = card;
+async function carregarTabuleiro(jogo) {
+    try {
+        const palavras = await buscarPalavras();
+
+        if (palavras.length > 0) {
+            jogo.iniciar(palavras);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function carregarRankingNaTela(rankingLista) {
+    if (!rankingLista) return;
+
+    const ranking = await buscarRanking();
+
+    if (ranking.length === 0) {
+        rankingLista.innerHTML = `<li class="ranking-empty">Nenhum registro encontrado.</li>`;
         return;
     }
-    segunda = card;
-    tentativas++;
-    verificar();
+
+    rankingLista.innerHTML = ranking
+        .slice(0, 10)
+        .map((item) => {
+            const nome =
+                item.nome ??
+                item.jogador ??
+                item.name ??
+                item.usuario ??
+                item.player ??
+                "Jogador";
+
+            const tentativas =
+                item.tentativas ??
+                item.tentativa ??
+                item.tries ??
+                "-";
+
+            const tempo =
+                item.tempo ??
+                item.time ??
+                "-";
+
+            return `
+                <li>
+                    <span class="ranking-name">${nome}</span><br>
+                    Tentativas: ${tentativas} | Tempo: ${tempo}
+                </li>
+            `;
+        })
+        .join("");
 }
-
-function verificar() {
-    if (primeira.textContent == segunda.textContent) {
-        primeira = null;
-        segunda = null;
-        console.log("acertou...");
-    } else {
-        bloqueado = true;
-        setTimeout(() => {
-            primeira.textContent = "?";
-            segunda.textContent = "?";
-            primeira.classList.remove("selecionado");
-            segunda.classList.remove("selecionado");
-            primeira = null;
-            segunda = null;
-            bloqueado = false;
-            console.log("1")
-        }, 600);
-        console.log("2")
-    }
-}
-
-
-function embaralhar(array) {
-    for (let x = array.length - 1; x > 0; x--) {
-        let y = Math.floor(Math.random() * (1 + x));
-        [array[x], array[y]] = [array[y], array[x]];
-    }
-    return array;
-}
-
-btnReiniciar.onclick = () => buscarPalavras();
