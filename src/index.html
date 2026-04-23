@@ -14,6 +14,12 @@
 <body>
 
     <header class="header">
+        <button id="btnHamburger" class="btn-hamburger" type="button" aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <nav>
             <ul>
                 <li>
@@ -29,13 +35,41 @@
                 </li>
 
                 <li>
-                    <a href="game.html">
+                    <a href="https://eduardorgermano.github.io/jogo-da-memoria-html/" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-gamepad"></i> Jogo da Memória
                     </a>
                 </li>
 
                 <li>
-                    <button id="btnTema" class="btn-theme" type="button">
+                    <button id="btnTema" class="btn-theme" type="button" aria-label="Alternar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <nav id="menuMobile" class="menu-mobile">
+            <ul>
+                <li>
+                    <a href="#sobre">
+                        <i class="fas fa-user"></i> Sobre
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#projetos">
+                        <i class="fas fa-project-diagram"></i> Projetos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://eduardorgermano.github.io/jogo-da-memoria-html/" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-gamepad"></i> Jogo da Memória
+                    </a>
+                </li>
+
+                <li>
+                    <button id="btnTemaMobile" class="btn-theme" type="button" aria-label="Alternar tema">
                         <i class="fas fa-moon"></i>
                     </button>
                 </li>
@@ -71,19 +105,7 @@
         <section id="projetos" class="projects">
             <h1>Meus Projetos</h1>
 
-            <div class="project-list">
-
-                <div class="project-card">
-                    <h3>Portfólio</h3>
-                    <p>Site pessoal desenvolvido com HTML, CSS e JavaScript.</p>
-                </div>
-
-                <div class="project-card">
-                    <h3>Jogo da Memória</h3>
-                    <p>Projeto interativo feito com JavaScript.</p>
-                </div>
-
-            </div>
+            <div class="project-list"></div>
         </section>
 
     </main>
